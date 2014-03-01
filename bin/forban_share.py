@@ -311,7 +311,9 @@ class Root:
 
     def messages(self):
         retStr = ""
-        for file in glob.glob( os.path.join( forbanshareroot, "*") ):
+        unsorted_list = glob.glob( os.path.join( forbanshareroot, "*") )
+        sorted_list = sorted( unsorted_list )
+        for file in sorted_list:
             if os.path.isfile(file):
                 with open(file, 'r') as openfile:
                     contents = openfile.read()

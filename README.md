@@ -1,3 +1,13 @@
+Forban hack
+===========
+
+Adjusted version of Forban for use as a messaging app. WIP.
+
+Webapp
+------
+A webapp is served on localhost:12555
+
+
 Forban
 ======
 
