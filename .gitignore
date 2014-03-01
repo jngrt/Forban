@@ -1,1 +1,8 @@
 cfg/forban.cfg
+*.pyc
+var/share*
+*.DS_STORE
+var/log
+var/*.pid
+var/loot
+var/fid

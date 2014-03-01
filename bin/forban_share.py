@@ -149,8 +149,10 @@ def forban_geturl(uuid=None, filename=None, protocol="v4"):
 
     return url
 
+
+
 class Root:
-    def index(self, directory=forbanshareroot):
+    def debug(self, directory=forbanshareroot):
         html = htmlheader
         html += htmlnav
         html += """<br/> <br/> <br/> <div class="right inner">"""
@@ -307,10 +309,32 @@ class Root:
         html += htmlfooter
         return html
 
+    def messages(self):
+        retStr = ""
+        for file in glob.glob( os.path.join( forbanshareroot, "*") ):
+            if os.path.isfile(file):
+                with open(file, 'r') as openfile:
+                    contents = openfile.read()
+                    retStr += os.path.basename(file) + ' ' + contents + '\n'
+        return retStr
+        
+    def index(self):
+        with open( os.path.join( forbanpath, 'bin', 'webapp.html' ), 'r') as file:
+            return file.read()
+
+    def send(self, time, message):
+        if os.path.isfile( os.path.join( forbanshareroot, time)):
+            return
+        with open( os.path.join( forbanshareroot, time ), 'a') as the_file:
+            the_file.write(message)
+
     index.exposed = True
+    debug.exposed = True
     q.exposed = True
     v.exposed = True
     l.exposed = True
+    messages.exposed = True
+    send.exposed = True
 
 class Download:
     def index(self, g=None, f=None):
