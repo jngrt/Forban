@@ -7,23 +7,46 @@ Webapp
 ------
 A webapp is served on localhost:12555
 
+Getting Forban to run on OpenWRT
+================================
+
+get forban
+----------
+Openwrt doesn't support downloading from https or via git. So here's the roundabout way:
+- Download forban on another computer from: https://github.com/jngrt/Forban/archive/master.zip
+- Unzip it!
+- Copy it to openwrt
+    scp -r Forban-master <user>@<openwrt-box>:~/Forban
+
+run forban
+----------
+On your openwrt box run Forban
+    ssh <user>@<openwrt-box>
+    opkg install python
+    cd Forban
+    ./bin/forbanctl start
+
+
+
+BELOW IS FORBAN README
+======================
 
 Forban
 ======
 
 [Forban](http://www.foo.be/forban/) is a p2p application for link-local and local area networks.
 
-Forban works independently from the Internet and uses only the local 
-area capabilities to announce, discover, search or share files. 
+Forban works independently from the Internet and uses only the local
+area capabilities to announce, discover, search or share files.
 Forban relies on HTTP and it is "opportunistic".
 
-The name takes its origins from an old French word: 
-http://fr.wiktionary.org/wiki/forban 
+The name takes its origins from an old French word:
+http://fr.wiktionary.org/wiki/forban
 
 Forban name can also be a playword in English
 for banning unwanted software or services on the Internet.
 
-Forban is free software licensed under 
+Forban is free software licensed under
 the GNU Affero General Public License version 3.
 http://www.fsf.org/licensing/licenses/agpl-3.0.html
 
@@ -33,7 +56,7 @@ and another [Forban presentation](http://www.foo.be/haxogreen2012/forban-general
 Installation
 ------------
 
-The setup is quite easy :                             
+The setup is quite easy :
 
 Clone the repository:
 
@@ -51,7 +74,7 @@ Now you can open your favorite browser and go to the following location:
 
     http://127.0.0.1:12555
 
-To share some files, you just need to copy them into ./var/share/ 
+To share some files, you just need to copy them into ./var/share/
 
 If you want to use another share directory don't forget
 to copy the ./var/share/forban directory, which contains CSS and images
@@ -59,14 +82,14 @@ for the website. It can work without these, but it's more handy for
 users browsing directly to your Forban in passive mode.
 
 Forban protocol
---------------- 
+---------------
 
 ### message format used for announce/discovery
 
 ### announce message
 
 ASCII encoded message use UDP on port 12555 with
-the following format: 
+the following format:
 
     forban;name;<nameoftheforban>;uuid;<identityoftheforban>;hmac;<hmacvaluecofindex>
 
