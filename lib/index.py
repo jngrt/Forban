@@ -17,7 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
-import os
+import os, time
 import re
 import difflib
 import re
@@ -48,7 +48,9 @@ class manage:
         for root, dirs, files in os.walk(self.sharedir, topdown=True, followlinks=True):
             for name in files:
                 try:
-                    self.index = self.index + os.path.join(root.split(self.sharedir)[1],name)+","+str(os.path.getsize(os.path.join(root,name)))+"\n"
+                    if name[0].isdigit(): # rudimentary filter for message age
+                        if time.time()-int(name)/1000 < 600: 
+                            self.index = self.index + os.path.join(root.split(self.sharedir)[1],name)+","+str(os.path.getsize(os.path.join(root,name)))+"\n"
                 except:
                     pass
 
