@@ -5,33 +5,64 @@ Adjusted version of Forban for use as a messaging app. WIP.
 
 Webapp
 ------
-A webapp is served on localhost:12555
+A webapp is served on localhost:12555. It replaces the default forban web front end.
 
 Getting Forban to run on OpenWRT
-================================
+--------------------------------
 
-get forban
-----------
+### Get forban
+
 Openwrt doesn't support downloading from https or via git. So here's the roundabout way:
+
 - Download forban on another computer from: https://github.com/jngrt/Forban/archive/master.zip
 - Unzip it!
-- Copy it to openwrt
+- Copy it to openwrt:
+
     scp -r Forban-master <user>@<openwrt-box>:~/Forban
 
 run forban
 ----------
 On your openwrt box run Forban
+
     ssh <user>@<openwrt-box>
     opkg install python
     cd Forban
     ./bin/forbanctl start
 
 
+plan, without forban, WIP
+====
+Alternatively we could try without Forban. This is what the openwrt nodes should be able to do:
 
-BELOW IS FORBAN README
-======================
+- join network > todo: fix mesh (or do we have quick mesh working properly enough?)
+- whenever a network is joined: broadcast ip
+- every x minutes broadcast ip for discovery
+- continuously listen for other broadcasts
+- add all discovered clients to list
+- check with each client in list
+  - still available? otherwise remove from list
+  - what messages they have
+- copy the messages that the remote party has but local has not
 
-Forban
+Doesn't sound too hard. Here's some python to listen for broadcast (http://code.activestate.com/recipes/577278-receive-udp-broadcasts/)
+
+```python
+import select, socket
+
+port = 53005  # where do you expect to get a msg?
+bufferSize = 1024 # whatever you need
+
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+s.bind(('<broadcast>', port))
+s.setblocking(0)
+
+while True:
+    result = select.select([s],[],[])
+    msg = result[0][0].recv(bufferSize)
+    print msg
+```
+
+Forban (old readme)
 ======
 
 [Forban](http://www.foo.be/forban/) is a p2p application for link-local and local area networks.
